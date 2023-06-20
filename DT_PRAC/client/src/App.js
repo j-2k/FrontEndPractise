@@ -22,7 +22,8 @@ export default App
 
 import logo from './logo.svg';
 import './App.css';
-import React, {useEffect, useState} from 'react'
+import React, { useState, useEffect } from 'react'//, {useState}
+import TransTemp from './DynamicComponent'
 
 function App() {
   return (
@@ -32,8 +33,10 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.<br></br>
           <button onClick={LogRequest}>Get Request</button><br></br>
-          <button onClick={GetTransaction}>Get Transaction</button>
+          <button onClick={GetTransaction}>Get Current Transaction Log</button>
         </p>
+        {displayString}
+        <TransTemp/>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -47,6 +50,34 @@ function App() {
   );
 }
 
+function TransactionComponent()
+{
+
+}
+
+let displayString = DisplayLog(null);
+
+function DisplayLog(logs)
+{
+  //const {user, price, entity} = props.transaction;
+  //console.log(user + " Testing Transaction ");
+  
+  console.log(logs + " Testing Transaction ");
+
+  if(logs === null)
+  {
+    console.log("NULL");
+    return 'Loading...';
+  }
+  else
+  {
+    console.log('Customer ' + logs.transaction.user + ' payed ' + logs.transaction.price + "AED to entity " + logs.transaction.entity);
+    return 'Customer ' + logs.transaction.user + ' payed ' + logs.transaction.price + "AED to entity " + logs.transaction.entity;
+  }
+  
+  //return 'Hello';
+}
+
 function LogRequest ()
 {
   console.log('fetching...');
@@ -54,6 +85,8 @@ function LogRequest ()
   .then(Response => Response.json())
   .then(data => {
     console.log(data);
+    //console.log(data.transaction.user, data.transaction.price, data.transaction.entity);
+    displayString = DisplayLog(data);
   })
   .catch(err => {
     console.log(err);
@@ -62,8 +95,8 @@ function LogRequest ()
 
 function GetTransaction()
 {
-    console.log('fetching transaction...')
-    
+  console.log("Test Get Transaction");
+  console.log(displayString);
 }
 
 export default App;
