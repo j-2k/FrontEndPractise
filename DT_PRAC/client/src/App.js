@@ -32,10 +32,16 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.<br></br>
-          <button onClick={LogRequest}>Get Request</button><br></br>
-          <button onClick={GetTransaction}>Get Current Transaction Log</button>
+          {
+          //<button onClick={LogRequest}>Get Request</button><br></br>
+          //<button onClick={GetTransaction}>Get Current Transaction Log</button>
+          }
         </p>
-        {displayString}
+        {
+          //displayString
+        }
+        Testing Components
+        <TransactionComponent/>
         <TransTemp/>
         <a
           className="App-link"
@@ -52,11 +58,53 @@ function App() {
 
 function TransactionComponent()
 {
+  const [sentence, setSentence] = useState(null);
+  /*useEffect(() => {
+    // Function to generate a dynamic sentence
+    const generateSentence = () => {
+      // Generate your dynamic sentence here
+      const dynamicSentence = details;
+      setSentence(dynamicSentence);
+    };
+  }, []);
+  */
 
+  const handleClick = () => {
+    // Handle button click event
+    console.log('Button clicked!');
+    LogRequest();
+
+  };
+
+  function LogRequest ()
+  {
+    console.log('fetching...');
+    fetch('/api/log')
+    .then(Response => Response.json())
+    .then(data => {
+      console.log("Data = " , data);
+      console.log(data.transaction.user, data.transaction.price, data.transaction.entity);
+      //displayString = DisplayLog(data);
+      setSentence({user: data.transaction.user,price: data.transaction.price, entity: data.transaction.entity});
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+  const finalSentence = sentence === null ? "Waiting To Fetch..." : sentence.user + sentence.price + sentence.entity;
+
+  return (
+    <p>
+    <button onClick={handleClick}>Click To Fetch API Log</button><br></br>
+    {finalSentence}
+    </p>
+  );
 }
 
-let displayString = DisplayLog(null);
 
+/*
+let displayString = DisplayLog(null);
 function DisplayLog(logs)
 {
   //const {user, price, entity} = props.transaction;
@@ -78,25 +126,11 @@ function DisplayLog(logs)
   //return 'Hello';
 }
 
-function LogRequest ()
-{
-  console.log('fetching...');
-  fetch('/api/log')
-  .then(Response => Response.json())
-  .then(data => {
-    console.log(data);
-    //console.log(data.transaction.user, data.transaction.price, data.transaction.entity);
-    displayString = DisplayLog(data);
-  })
-  .catch(err => {
-    console.log(err);
-  });
-}
-
 function GetTransaction()
 {
   console.log("Test Get Transaction");
   console.log(displayString);
 }
+*/
 
 export default App;
