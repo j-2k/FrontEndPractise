@@ -73,7 +73,12 @@ function TransactionComponent()
     // Handle button click event
     console.log('Button clicked!');
     LogRequest();
+  };
 
+  const AutoFetch = () => {
+    // Handle button click event
+    console.log('Button clicked!');
+    LogRequest();
   };
 
   function LogRequest ()
@@ -97,6 +102,7 @@ function TransactionComponent()
   return (
     <p>
     <button onClick={handleClick}>Click To Fetch API Log</button><br></br>
+    <button onClick={AutoFetch}>Toggle Auto Fetch</button><br></br>
     {finalSentence}
     </p>
   );
