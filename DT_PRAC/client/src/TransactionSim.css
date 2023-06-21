@@ -1,0 +1,57 @@
+html {
+    background-color: rgb(82, 82, 82);
+}
+
+h1 {
+    color:white;
+}
+
+a{
+    color: rgb(255, 0, 255);
+    text-decoration:none;
+}
+
+nav div h1{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+nav div{
+    display: flex;
+    padding: 0;
+    margin: 0;
+    background-color: rgb(32, 32, 32);
+    justify-content: space-between;
+
+}
+
+nav div ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 4rem;
+    align-items: center;
+    color: rgb(150, 0, 150);
+    margin-right: 5%;
+}
+
+main div ul{
+    display:block;
+}
+
+
+.transactionblock{
+    list-style-type: none;
+    text-align: left;
+    background-color: rgb(2, 115, 214);
+    margin: 1rem;
+    margin-right: 4rem;
+    border-radius: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: white;
+    font-weight: 300;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
