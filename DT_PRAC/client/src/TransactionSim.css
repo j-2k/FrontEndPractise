@@ -39,14 +39,12 @@ nav div ul {
 .transactionblock{
     display: flex;
     list-style-type: none;
+    align-items: center;
     background-color: rgb(2, 115, 214);
     margin: 1rem;
     margin-right: 4rem;
     border-radius: 50px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px;
     color: white;
     font-weight: 300;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
@@ -58,11 +56,10 @@ nav div ul {
     gap: 1rem;
 }
 
-.ult li:first-child{
-    display: flex;
-    color: black;
+.ult li p{
+    overflow-wrap: break-word;
+    margin: 0;
 }
-
 
 /*
 .usertxt{

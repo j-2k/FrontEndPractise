@@ -83,14 +83,13 @@ function TransactionChecker()
         return(<li className="transactionblock">
         #{sentence[0]}
         <ul className='ult'>
-            <li className='usertxt'> User: {sentence[1]}</li>
-            <li className='spenttxt'> Spent: {sentence[2]} </li>
-            <li className='entitytxt'> Entity: {sentence[3]} </li>
+            <li className='usertxt'> <p>User: {sentence[1]} </p> </li>
+            <li className='spenttxt'> <p>Spent: {sentence[2]}</p> </li>
+            <li className='entitytxt'> <p>Entity: {sentence[3]}</p> </li>
         </ul>
         </li>);
     }
 }
-
 
 function MyComponent() {
     let testB = false;
