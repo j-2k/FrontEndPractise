@@ -25,7 +25,6 @@ function TransactionPage() {
         <h2>Main</h2>
         <div >
             <ul >
-                <MyComponent/>
                 <TransactionChecker/>
             </ul>
         </div>
@@ -38,19 +37,10 @@ function TransactionPage() {
 }
 
 /*
-
+<MyComponent/>
 <TransactionBlock/>
 <TransactionBlock/>
 */
-                
-function TransactionBlock()
-{
-    return(
-        <li className="transactionblock">
-            Transaction = {TransactionChecker()}
-        </li>
-    )
-}
 
 function TransactionChecker()
 {
@@ -75,15 +65,30 @@ function TransactionChecker()
     .then(Response => Response.json())
     .then(data => {
       console.log("Data = " , data);
-      console.log(data.transaction.user, data.transaction.price, data.transaction.entity);
-      setSentence([data.transaction.user,data.transaction.price,data.transaction.entity])
+      console.log(data.transaction.num,data.transaction.user, data.transaction.price, data.transaction.entity);
+      setSentence([data.transaction.num,data.transaction.user,data.transaction.price,data.transaction.entity])
     })
     .catch(err => {
       console.log(err);
     });
-  }
+  } 
 
-  return (sentence);
+  //return (sentence);
+    if(sentence === null)
+    {
+        return (<li className="transactionblock">Fetching...</li>);
+    }
+    else
+    {
+        return(<li className="transactionblock">
+        #{sentence[0]}
+        <ul className='ult'>
+            <li className='usertxt'> User: {sentence[1]}</li>
+            <li className='spenttxt'> Spent: {sentence[2]} </li>
+            <li className='entitytxt'> Entity: {sentence[3]} </li>
+        </ul>
+        </li>);
+    }
 }
 
 
@@ -98,7 +103,7 @@ function MyComponent() {
         testB = true;
       }
 
-    }, [testB]);
+    }, []);
   
     const myFunction = () => {
       // Logic to be executed once

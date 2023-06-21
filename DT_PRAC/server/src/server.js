@@ -1,12 +1,16 @@
 const express = require('express');
 const server = express();
 
+let transactionsNum = 0;
+
 // routes
 server.get('/api/log', (request, response) => {
     //response.send('<h1> Hi, you requested me? What would you like help with? Test</h1>');
     console.log("test   " + GetRandom),
+    transactionsNum++;
     GetRandom = Randomise(),
     transaction = {
+        num: transactionsNum,
         user: GetRandom[0],
         price: GetRandom[1],
         entity: GetRandom[2]
@@ -20,6 +24,7 @@ server.get('/api/log', (request, response) => {
 const randomNumber = Math.floor(Math.random() * 10) + 1;
 let GetRandom = Randomise();
 let transaction = {
+    num: transactionsNum,
     user: GetRandom[0],
     price: GetRandom[1],
     entity: GetRandom[2]

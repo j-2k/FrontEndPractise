@@ -35,14 +35,10 @@ nav div ul {
     margin-right: 5%;
 }
 
-main div ul{
-    display:block;
-}
-
 
 .transactionblock{
+    display: flex;
     list-style-type: none;
-    text-align: left;
     background-color: rgb(2, 115, 214);
     margin: 1rem;
     margin-right: 4rem;
@@ -55,3 +51,29 @@ main div ul{
     font-weight: 300;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
+
+.ult{
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.ult li:first-child{
+    display: flex;
+    color: black;
+}
+
+
+/*
+.usertxt{
+    display: flex;
+}
+
+.spenttxt{
+    display: flex;
+}
+
+.entitytxt{
+    
+}
+*/
