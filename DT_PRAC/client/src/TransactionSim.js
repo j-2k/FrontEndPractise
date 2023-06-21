@@ -25,9 +25,8 @@ function TransactionPage() {
         <h2>Main</h2>
         <div >
             <ul >
-                <TransactionBlock/>
-                <TransactionBlock/>
-                <TransactionBlock/>
+                <MyComponent/>
+                <TransactionChecker/>
             </ul>
         </div>
     </main>
@@ -38,6 +37,12 @@ function TransactionPage() {
   );
 }
 
+/*
+
+<TransactionBlock/>
+<TransactionBlock/>
+*/
+                
 function TransactionBlock()
 {
     return(
@@ -49,32 +54,19 @@ function TransactionBlock()
 
 function TransactionChecker()
 {
-  const [sentence, setSentence] = useState(null);
+    let testB = false;//guard for running once??? why is it running twice without the guard
+    const [sentence, setSentence] = useState(null);
 
-    /*
-    useEffect(() => {
-        // Function to generate a dynamic sentence
-        const generateSentence = () => {
-            const finalSentence = sentence === null ? "Waiting To Fetch..." : 
-            sentence.user + " has payed a total of " + sentence.price + " to " + sentence.entity;
-        // Generate your dynamic sentence here
-        //const finalSentence2 = 'This is a dynamic sentence: ' + new Date().toLocaleTimeString();
-        setSentence(finalSentence);
-        };
-        
+    
+    useEffect(() => {        
+        if (!testB) {
+            LogRequest();
+            testB=true;
+        }
         // Call the function initially
-        LogRequest();
-        generateSentence();
-        
-        // Update the sentence every second
-        const intervalId = setInterval(generateSentence, 1000);
-        
-        // Clean up the interval on component unmount
-        return () => {
-            clearInterval(intervalId);
-        };
+
     }, []);
-    */
+    
 
   function LogRequest ()
   {
@@ -84,8 +76,6 @@ function TransactionChecker()
     .then(data => {
       console.log("Data = " , data);
       console.log(data.transaction.user, data.transaction.price, data.transaction.entity);
-      //displayString = DisplayLog(data);
-      //setSentence({user: data.transaction.user,price: data.transaction.price, entity: data.transaction.entity});
       setSentence([data.transaction.user,data.transaction.price,data.transaction.entity])
     })
     .catch(err => {
@@ -93,9 +83,34 @@ function TransactionChecker()
     });
   }
 
-  
-
   return (sentence);
 }
+
+
+function MyComponent() {
+    let testB = false;
+    console.log('Component rendering'); // Log when component renders
+    useEffect(() => {
+      // Function to run once
+      if(!testB)
+      {
+        myFunction();
+        testB = true;
+      }
+
+    }, [testB]);
+  
+    const myFunction = () => {
+      // Logic to be executed once
+      console.log('Effect running'); // Log when effect runs
+    };
+  
+    return (
+      // JSX for your component
+      <div>
+        {/* Component content */}
+      </div>
+    );
+  }
 
 export default TransactionPage;
