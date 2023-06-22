@@ -6,23 +6,21 @@ function TransactionPage() {
   return (    
 <div>
     <header>
-        <h2>Header</h2> 
     </header>
     <nav>
         <div>
         <h1>Transactions Page</h1>
             <ul>
-            <li>test0</li>
+            <li>Transactions Simulator by Juma</li>
             <li>
                 <Link to='/'>Home</Link>
             </li>
-            <li>test2</li>
-            <li>test3</li>
+            <li>About</li>
+            <li>FAQ</li>
             </ul>
         </div>
     </nav>
     <main>
-        <h2>Main</h2>
         <RunOneTime/>
         <div >
             <ul >
@@ -31,7 +29,6 @@ function TransactionPage() {
         </div>
     </main>
     <footer>
-        <h2>Footer</h2>
     </footer>
 </div>
   );
@@ -47,29 +44,31 @@ const TransactionsArray = () => {
   const [itemData, setItemData] = useState([]);
 
   useEffect(() => {
-    
     const intervalId = setInterval(addItem, 1000); // Call myFunction every 1 second
     
-
-
     return () => {
       clearInterval(intervalId); // Cleanup: Clear the interval when the component unmounts
     };
   }, []);
 
-  function addItem () 
-  {
-    const newItem = 0; // Generate a new item value
-    setItemData(itemData =>[...itemData, newItem]); // Add the new item to the existing array
-    console.log("function called");
+  const addItem = () => {
+    setItemData(prevData  => {
+      if (prevData.length >= 6) {
+        // If the array has reached the limit, remove the first element
+        prevData.shift();
+      }
+
+      const newItem = Math.random(); // Generate a new item value
+      return [...prevData, newItem]; // Add the new item to the end of the array
+    });
   };
 
   //div
   //<button onClick={addItem}>Add Item</button>
   return (
     <div>
-      {itemData.map((item, index) => (
-        <TransactionChecker key={index} />
+      {itemData.map((index) => (
+        <TransactionChecker key={index}/>
       ))}
     </div>
   );
