@@ -23,9 +23,10 @@ function TransactionPage() {
     </nav>
     <main>
         <h2>Main</h2>
+        <RunOneTime/>
         <div >
             <ul >
-                <TransactionChecker/>
+                <TransactionsArray/>
             </ul>
         </div>
     </main>
@@ -41,6 +42,41 @@ function TransactionPage() {
 <TransactionBlock/>
 <TransactionBlock/>
 */
+
+const TransactionsArray = () => {
+  const [itemData, setItemData] = useState([]);
+
+  useEffect(() => {
+    
+    const intervalId = setInterval(addItem, 1000); // Call myFunction every 1 second
+    
+
+
+    return () => {
+      clearInterval(intervalId); // Cleanup: Clear the interval when the component unmounts
+    };
+  }, []);
+
+  function addItem () 
+  {
+    const newItem = 0; // Generate a new item value
+    setItemData(itemData =>[...itemData, newItem]); // Add the new item to the existing array
+    console.log("function called");
+  };
+
+  //div
+  //<button onClick={addItem}>Add Item</button>
+  return (
+    <div>
+      {itemData.map((item, index) => (
+        <TransactionChecker key={index} />
+      ))}
+    </div>
+  );
+};
+
+
+
 
 function TransactionChecker()
 {
@@ -74,6 +110,7 @@ function TransactionChecker()
   } 
 
   //return (sentence);
+  
     if(sentence === null)
     {
         return (<li className="transactionblock">Fetching...</li>);
@@ -89,9 +126,21 @@ function TransactionChecker()
         </ul>
         </li>);
     }
+    
+
+    /*
+    if(sentence === null)
+    {
+        return (null);
+    }
+    else
+    {
+        return(sentence);
+    }
+    */
 }
 
-function MyComponent() {
+function RunOneTime() {
     let testB = false;
     console.log('Component rendering'); // Log when component renders
     useEffect(() => {
