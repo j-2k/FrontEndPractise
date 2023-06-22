@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import './TransactionSim.css';
 import ghl from './GLW.png'
+import { TransactionComponent } from './Home';
 function TransactionPage() {
   return (    
 <div>
@@ -24,7 +25,7 @@ function TransactionPage() {
         <RunOneTime/>
         <div >
             <ul >
-                <TransactionChecker/>
+                <TransactionsArray filter={false}/>
             </ul>
         </div>
     </main>
@@ -40,7 +41,7 @@ function TransactionPage() {
 <TransactionBlock/>
 */
 
-const TransactionsArray = () => {
+const TransactionsArray = ({filter}) => {
   const [itemData, setItemData] = useState([]);
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const TransactionsArray = () => {
 
   const addItem = () => {
     setItemData(prevData  => {
-      if (prevData.length >= 6) {
+      if (prevData.length >= 6 && filter === true) {
         // If the array has reached the limit, remove the first element
         prevData.shift();
       }
