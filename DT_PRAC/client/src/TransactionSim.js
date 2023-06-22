@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import './TransactionSim.css';
-
+import ghl from './GLW.png'
 function TransactionPage() {
   return (    
 <div>
@@ -24,7 +24,7 @@ function TransactionPage() {
         <RunOneTime/>
         <div >
             <ul >
-                <TransactionsArray/>
+                <TransactionChecker/>
             </ul>
         </div>
     </main>
@@ -122,6 +122,7 @@ function TransactionChecker()
             <li className='usertxt'> <p>User: {sentence[1]} </p> </li>
             <li className='spenttxt'> <p>Spent: {sentence[2]}</p> </li>
             <li className='entitytxt'> <p>Entity: {sentence[3]}</p> </li>
+            <li ><img className='entityimg' src={ghl}></img></li>
         </ul>
         </li>);
     }

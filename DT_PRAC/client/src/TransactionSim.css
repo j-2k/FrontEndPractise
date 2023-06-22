@@ -40,7 +40,7 @@ nav div ul {
     display: flex;
     list-style-type: none;
     align-items: center;
-    background-color: rgb(2, 115, 214);
+    background-color: rgb(76, 71, 123);
     margin: 1rem;
     margin-right: 4rem;
     border-radius: 50px;
@@ -53,24 +53,34 @@ nav div ul {
 .ult{
     list-style: none;
     display: flex;
-    gap: 1rem;
+    align-items: center;
 }
 
 .ult li p{
     overflow-wrap: break-word;
-    margin: 0;
+    display: flexbox;
+    color:rgb(255, 255, 255);
+    margin: 0 1rem;
 }
 
-/*
 .usertxt{
-    display: flex;
+    width: 200px;
 }
 
 .spenttxt{
-    display: flex;
+    width: 200px;
 }
 
 .entitytxt{
-    
+    color:rgb(255, 255, 255);
+    width: 200px;
 }
-*/
+
+.entityimg{
+    width: 150px;
+    height: 50px;
+}
+
+footer{
+    color:white;
+}
