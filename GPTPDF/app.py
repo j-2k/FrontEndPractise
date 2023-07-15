@@ -4,6 +4,10 @@ from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
+from langchain.chains.question_answering import load_qa_chain
+from langchain.llms.openai import OpenAI
+from langchain.chat_models import ChatOpenAI
+
 #streamlit run app.py
 def main ():
     print("Heloo 1World")
@@ -40,7 +44,14 @@ def main ():
         userQuestion = st.text_input("Ask about this PDF: ")
         if userQuestion:
             docSearchRes = knowledgeDB.similarity_search(userQuestion)
-            st.write(docSearchRes)
+            #st.write(docSearchRes)
+
+            openAIllm = ChatOpenAI(model_name="gpt-3.5-turbo")
+            chain = load_qa_chain(openAIllm, chain_type="stuff")
+            gptResponse = chain.run(input_documents=docSearchRes, question=userQuestion)
+
+            st.write(gptResponse);
+
 
 
         
