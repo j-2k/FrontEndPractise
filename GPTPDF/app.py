@@ -1,6 +1,8 @@
 from dotenv import load_dotenv
 import streamlit as st
 from PyPDF2 import PdfReader
+import io
+import os
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
@@ -12,77 +14,76 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.chains import ConversationChain
+from langchain.document_loaders import PyPDFLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+import time
 
 #streamlit run app.py
 def main ():
-    print("Heloo 1World")
+    print("Starting GPT PDF 1...")
     #start
     load_dotenv()
-    st.set_page_config(page_title="Jumas GPT PDF Reader")
-    st.header("Please drop your PDF here")
+    #st.set_page_config(page_title="Jumas GPT PDF Reader")
+    #st.header("Please drop your PDF here")
 
     #upload section
-    pdf = st.file_uploader("Upload your PDF", type="pdf")
+    #pdf = st.file_uploader("Upload your PDF", type="pdf")
+
+    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
     #extract text from pdf
-    if pdf is not None:
-        pdf_reader = PdfReader(pdf)
-        text = ""
-        for page in pdf_reader.pages:
-            text += page.extract_text()
 
-        #initializing chunk text splitter
-        splitText = CharacterTextSplitter(
-            separator = "\n",
-            chunk_size = 1000,
-            chunk_overlap = 100,
-            length_function = len
-        )
-        chunks = splitText.split_text(text)
-        #st.write(chunks)
+    loader = PyPDFLoader("uaec.pdf")
+    #time.sleep(10)
+    #loader = PyPDFLoader(os.stat(str(pdfBytes)))
+    pages = loader.load_and_split()
+
+    #pdf_reader = PdfReader(pdf)
+    #text = ""
+    #for page in pdf_reader.pages:
+    #    text += page.extract_text()
+
+    #initializing chunk text splitter
+    splitText = RecursiveCharacterTextSplitter(#split text into chunk size of 1000 chars with overlap of100
+        chunk_size = 1000,
+        chunk_overlap = 100,
+        length_function = len
+    )
+    chunks = splitText.split_documents(pages)
 
         #embedding phase
-        oaiEmbedding = OpenAIEmbeddings()
+    oaiEmbedding = OpenAIEmbeddings()
+
         #semantic search phase FAISS
-        knowledgeDB = FAISS.from_texts(chunks, oaiEmbedding) 
+    knowledgeDB = FAISS.from_documents(chunks, oaiEmbedding)#embed the chunks into the vector db
 
-        userQuestion = st.text_input("Ask about this PDF: ")
-        if userQuestion:
-            docSearchRes = knowledgeDB.similarity_search(userQuestion)
-            #st.write(docSearchRes)
+    retriever=knowledgeDB.as_retriever()
+    memory = ConversationBufferMemory(
+        memory_key='chat_history', #0,1,2,3,4,5 even = user odd = assistant
+        return_messages=True, 
+        output_key='answer')
 
-            openAIllm = ChatOpenAI(model_name="gpt-3.5-turbo", verbose=True)
-            #context & history
-            """
-            memory = ConversationBufferMemory(
-                memory_key="history",
-                return_messages=True)
-            
-            convoChain = ConversationalRetrievalChain.from_llm(
-                llm=openAIllm,
-                retriever=knowledgeDB.as_retriever(),
-                memory=memory
-            )
-            """
 
-            conversation = ConversationChain(
-                llm=openAIllm, 
-                # We set a low k=2, to only keep the last 2 interactions in memory
-                memory=ConversationBufferWindowMemory(k=2), 
-                verbose=True
-            )
+    #llm choice
+    openAIllm = ChatOpenAI(model_name="gpt-3.5-turbo", verbose=True)
 
-            
+    #history
+    chat = ConversationalRetrievalChain.from_llm(openAIllm,retriever=retriever,memory=memory)
 
-            chain = load_qa_chain(openAIllm, chain_type="stuff")
+    #userQuestion = st.text_input("Ask about this PDF: ")
 
-            with get_openai_callback() as cb:
-                gptResponse = chain.run(input_documents=docSearchRes, question=userQuestion)
-                print(cb)
-            
-            st.write(gptResponse)
+    #print(f"Answer: {chat({'question': userQuestion})['answer'].strip()}")
+    
+    print("Welcome to the PDF ChatBot. Ask me anything about the document!")
+    while True:
+      try:
+         userQuestion = input('ask your question: ')
+         print(f"gpt pdf response: {chat({'question': userQuestion})['answer'].strip()}")
+      except EOFError:
+         break
+      except KeyboardInterrupt:
+         break
 
-            st.write("TEST >>> " + conversation.predict(input=userQuestion))
 
 
 
